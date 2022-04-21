@@ -1,11 +1,60 @@
+<head>
+<style>
+    body{
+        font-family: 'Times New Roman', Times, serif;
+        align-items: center;
+    }
+    form{
+        width: 500px;
+        margin: auto;
+    }
+    .det_title{
+        font-size: larger;
+        font-weight: bold;
+        margin-bottom: 10px;
+        margin-top: 5px;
+    }
+
+    .all{
+        margin-top: 20px;
+        text-align: center;
+        border: 2px solid black;
+    }
+    .det_name ,.det_add , .det_number{
+        width: 200px;
+        margin-left: 150px;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+
 {% extends 'base.html' %}
 
 {% block content%}
 <form action = "#" method="POST" enctype = "multipart/form-data">
     {% csrf_token %}
-    {{ detected_person.name }}
-    {{ detected_person.address }}
-    {{ detected_person.mobile_num }}
-    {{ detected_person.image }}
-</form
+    <div class = "all">
+    <div class ="det_title">Match Found</div>
+
+    <div class="det_image">
+        <img src = {{ path }}/>
+    </div>
+
+    <div class="det_name">
+        {{ detected_person.name }}
+    </div>
+    <div class="det_add">
+        {{ detected_person.address }}
+    </div>
+    <div class="det_number">
+        {{ detected_person.mobile_num }}
+    </div>
+    <div class ="confidence">
+        
+    </div>
+</div>
+</form>
 {% endblock%}
+
+</body>

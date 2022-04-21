@@ -11,8 +11,19 @@ class RegisteredChild(models.Model):
     num = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=200)
     address = models.CharField(max_length=500)
+    age = models.IntegerField()
     mobile_num = models.CharField(max_length=15)
     image = models.ImageField(upload_to = 'registered_images/')
+
+class User(models.Model):
+    unique_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=200)
+    password = models.CharField(max_length=20)
+    email = models.CharField(max_length=100)
+    country = models.CharField(max_length=50)
+    state = models.CharField(max_length=50)
+    city = models.CharField(max_length=50)
+    mobile = models.CharField(max_length=15)
 
 
     

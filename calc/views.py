@@ -1,16 +1,33 @@
-from unittest import result
+
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render , redirect
+from LostAngelFinder.settings import MEDIA_ROOT
 from calc.forms import PersonForm
 from calc.machinelearning import pipeline_model
 from django.conf import settings
-from calc.models import Person, RegisteredChild
+from calc.models import Person, RegisteredChild,User
 import cv2
 import os
 
 # Create your views here.
 def home(request):
-    return render(request, 'home.html' , {'name' : 'Harsh'})
+    if request.method == "POST":
+        name = request.POST['fname']
+        email = request.POST['email']
+        npass = request.POST['npass']
+        cpass = request.POST['cpass']
+        # age = request.GET['age']
+        mobile = request.POST['mobile']
+        city = request.POST['city']
+        state = request.POST['state']
+        country = request.POST['country']
+        aadhar = request.POST['aadhar']
+        if npass == cpass:
+            ins = User.objects.create(unique_id = aadhar , name = name ,password = npass, email = email , country = country , state = state , city = city , mobile = mobile)
+            return redirect(printt)
+        else:
+            print("ERROR")
+    return render(request, 'register.html')
 
 def printt(request):
     form = PersonForm()
@@ -25,10 +42,7 @@ def printt(request):
             print(filepath)
             img , cnt = pipeline_model(filepath)
             detected_person = RegisteredChild.objects.get(pk = cnt)
-            print(detected_person)
-            print("YYYYYYYYYYYYYYAAAAAAAAAAAAAYYYYYYYYYYYYYYY -- " , cnt)
-            cv2.imshow("detected" , img)
-            cv2.waitKey(0)
-            return render(request , 'home.html' , {'detected_person' : detected_person})
+            path_to_send= ".." + detected_person.image.url
+            return render(request , 'home.html' , {'detected_person' : detected_person , 'path': path_to_send})
             
-    return render(request , 'result.html' , {'form':form})
+    return render(request , 'upload.html' , {'form':form})
